@@ -3,38 +3,38 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - main  # or master, depending on your default branch
+      - main  # Replace with your default branch if different
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Use your Node version
+          node-version: '20'  # Replace with your Node.js version
 
-      # 3. Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd frontend
+          npm install
 
-      # 4. Build React app
       - name: Build React app
-        run: npm run build
+        run: |
+          cd frontend
+          npm run build
 
-      # 5. Add .nojekyll to build folder
-      - name: Add .nojekyll
-        run: touch build/.nojekyll
+      - name: Add .nojekyll to build folder
+        run: |
+          cd frontend/build
+          touch .nojekyll
 
-      # 6. Deploy to gh-pages branch
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v7
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./frontend/build
