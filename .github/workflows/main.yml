@@ -1,29 +1,40 @@
-name: Deploy Vite App to GitHub Pages
+name: Deploy React App to GitHub Pages
 
 on:
   push:
     branches:
-      - main   # or master, depending on your default branch
+      - main  # or master, depending on your default branch
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
+    steps:
+      # 1. Checkout the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '20'  # Use your Node version
 
+      # 3. Install dependencies
       - name: Install dependencies
-        run: npm install --prefix frontend
+        run: npm install
 
-      - name: Build
-        run: npm run build --prefix frontend
+      # 4. Build React app
+      - name: Build React app
+        run: npm run build
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      # 5. Add .nojekyll to build folder
+      - name: Add .nojekyll
+        run: touch build/.nojekyll
+
+      # 6. Deploy to gh-pages branch
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: frontend/dist
+          publish_dir: ./build
