@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { io } from 'socket.io-client'
 import { validateDelta, applyDelta } from '../utils/collaboration'
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || ''
+// const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || ''
+const API_URL = import.meta.env.VITE_BACKEND_API;
 
 const EditorContext = createContext()
 
@@ -30,7 +31,9 @@ export const EditorProvider = ({ children }) => {
   const lastChangeRef = useRef(null)
 
   useEffect(() => {
-    const socket = io(SOCKET_URL, { path: '/socket.io' })
+    const socket = io(API_URL, {
+  transports: ["websocket"], // important for Railway
+});
     socketRef.current = socket
 
     socket.on('connect', () => setConnected(true))
@@ -241,6 +244,7 @@ export const EditorProvider = ({ children }) => {
     isOwner: !!roomOwner && socketRef.current?.id === roomOwner.socketId,
     registerFileRequestHandler,
     requestFile,
+    isterminalopen:false,
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from "react";
 import Editor from "@monaco-editor/react";
 import { useEditor } from "../context/EditorContext";
 import { computeDelta, validateDelta } from "../utils/collaboration";
-import { Users } from "lucide-react";
+import { Users,SquareChevronRight } from "lucide-react";
 
 const MonacoEditor = ({ userData, onToggleSidebar }) => {
   const [language, setLanguage] = useState("javascript");
@@ -191,8 +191,8 @@ const MonacoEditor = ({ userData, onToggleSidebar }) => {
   return (
     <div className="flex-1  w-full min-h-0 flex flex-col bg-slate-900">
       {/* Top Bar */}
-      <div className=" bg-slate-800/90 backdrop-blur-xl border-b border-slate-700/50 p-4 flex items-center justify-between shadow-2xl shadow-slate-900/50">
-        <div className="flex items-center gap-6">
+      <div className="flex bg-slate-800/90 backdrop-blur-xl border-b border-slate-700/50 p-4  shadow-2xl shadow-slate-900/50">
+        <div className="flex items-center gap-3">
           <button
             onClick={onToggleSidebar}
             className="px-3 py-2 text-sm bg-slate-700/80 hover:bg-slate-600 text-white rounded-xl cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-slate-600/25 flex items-center gap-2 btn-hover glass-dark"
@@ -202,7 +202,7 @@ const MonacoEditor = ({ userData, onToggleSidebar }) => {
           </button>
 
           {/* Language Picker */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mx-1">
             <span className="text-gray-300 text-sm font-medium">Language:</span>
             <select
               value={language}
@@ -215,23 +215,12 @@ const MonacoEditor = ({ userData, onToggleSidebar }) => {
                 </option>
               ))}
             </select>
+
+           
           </div>
 
           {/* Theme Picker */}
-          <div className="flex items-center gap-3">
-            <span className="text-gray-300 text-sm font-medium">Theme:</span>
-            <select
-              value={theme}
-              onChange={(e) => setTheme(e.target.value)}
-              className="px-4 py-2 bg-slate-700/80 border border-slate-600/50 rounded-xl text-white text-sm focus-ring transition-all duration-300 glass-dark"
-            >
-              {themes.map((th) => (
-                <option key={th.id} value={th.id}>
-                  {th.icon} {th.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          
         </div>
 
         <div className="flex items-center gap-4">
@@ -293,6 +282,11 @@ const MonacoEditor = ({ userData, onToggleSidebar }) => {
               {lastSaved ? lastSaved.toLocaleTimeString() : "Never"}
             </div>
           </div>
+           <div className="">
+            <button className="p-4 cursor-pointer">
+               <SquareChevronRight />
+              </button>
+             </div>
         </div>
       </div>
 

@@ -44,22 +44,22 @@ const LocalFiles = () => {
       if (window.showDirectoryPicker) {
         try {
           const dirHandle = await window.showDirectoryPicker()
-                const children = await buildTreeFromDirectoryHandle(dirHandle)
-        const folderTree = { name: dirHandle.name, path: dirHandle.name, kind: 'directory', handle: dirHandle, children }
-        
-        setTree(folderTree)
-        setExpanded({ [dirHandle.name]: true })
-        
-        // Share folder with other users in the room
-        if (roomId) {
-          console.log('📁 Sharing folder with room:', roomId, folderTree)
-          const serializable = toSerializableTree(folderTree)
-          shareFolder(roomId, serializable, dirHandle.name)
-        } else {
-          console.log('⚠️ No room ID available for folder sharing')
-        }
-        
-        return
+          const children = await buildTreeFromDirectoryHandle(dirHandle)
+          const folderTree = { name: dirHandle.name, path: dirHandle.name, kind: 'directory', handle: dirHandle, children }
+
+          setTree(folderTree)
+          setExpanded({ [dirHandle.name]: true })
+
+          // Share folder with other users in the room
+          if (roomId) {
+            console.log('📁 Sharing folder with room:', roomId, folderTree)
+            const serializable = toSerializableTree(folderTree)
+            shareFolder(roomId, serializable, dirHandle.name)
+          } else {
+            console.log('⚠️ No room ID available for folder sharing')
+          }
+
+          return
         } catch (err) {
           // Blocked by permissions policy or user canceled - fallback to input
         }
@@ -96,7 +96,7 @@ const LocalFiles = () => {
     }
     setTree(root)
     setExpanded({ [root.name]: true })
-    
+
     // Share folder with other users in the room
     if (roomId) {
       console.log('📁 Sharing file tree with room:', roomId, root)
@@ -157,8 +157,8 @@ const LocalFiles = () => {
       const isOpen = !!expanded[node.path]
       return (
         <div key={node.path} className="ml-2">
-          <button 
-            onClick={() => toggle(node.path)} 
+          <button
+            onClick={() => toggle(node.path)}
             className="flex items-center gap-2 text-gray-200 hover:text-white cursor-pointer w-full text-left p-2 rounded-xl hover:bg-slate-700/50 transition-all duration-300"
           >
             {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
@@ -199,33 +199,33 @@ const LocalFiles = () => {
 
   return (
     <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-3  text-sm shadow-2xl shadow-slate-900/50 card-hover glass-dark">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex h-full mb-6">
         <div className="flex items-center gap-4 text-white font-semibold">
-          <div className="p-2 bg-yellow-500/20 rounded-2xl border border-yellow-500/30">
+          {/* <div className="p-2 bg-yellow-500/20 rounded-2xl border border-yellow-500/30">
             <FolderOpen size={18} className="text-yellow-400" />
-          </div>
+          </div> */}
           <div>
-            <div className="text-md">{sharedFolder ? 'Shared Files' : 'Local Files'}</div>
+            {/* <div className="text-md">{sharedFolder ? 'Shared Files' : 'Local Files'}</div> */}
             {sharedFolder && (
-              <div className="flex items-center gap-1 text-sm text-gray-400 mt-1">
+              <div className="flex items-center gap-1  text-sm text-gray-400 mt-1">
                 <Users size={14} />
                 <span>Shared by {sharedFolder.openedBy}</span>
               </div>
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center mx-3">
           {!sharedFolder && (
             <>
-              <button 
-                onClick={openFolder} 
+              <button
+                onClick={openFolder}
                 className={`p-3 mx-1  rounded-xl text-sm cursor-pointer flex items-center transition-all duration-300 shadow-lg btn-hover ${isOwner ? 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-xl hover:shadow-blue-600/25' : 'bg-slate-700 text-gray-300 cursor-not-allowed'}`}
                 disabled={!isOwner}
               >
                 <FolderOpen size={16} /> Open Folder
               </button>
-              <button 
-                onClick={() => setExpanded({})} 
+              <button
+                onClick={() => setExpanded({})}
                 className="px-4 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl text-sm cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg btn-hover"
                 title="Collapse All"
               >
@@ -234,8 +234,8 @@ const LocalFiles = () => {
             </>
           )}
           {sharedFolder && (
-            <button 
-              onClick={() => window.location.reload()} 
+            <button
+              onClick={() => window.location.reload()}
               className="px-5 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl text-sm cursor-pointer flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg btn-hover"
               title="Return to local files"
             >
@@ -244,21 +244,23 @@ const LocalFiles = () => {
           )}
         </div>
       </div>
-      
+
       <input ref={fileInputRef} type="file" style={{ display: 'none' }} webkitdirectory="" multiple onChange={onFilesChosen} />
-      
+
       <div className="max-h-80 overflow-auto border border-slate-600/50 rounded-xl p-4 bg-slate-900/50 glass-dark">
         {displayTree ? (
           <div className="animate-fade-in">
             {sharedFolder && (
-              <div className="text-sm text-gray-300 mb-4 p-4 bg-blue-600/20 border border-blue-500/30 rounded-xl glass-dark">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-blue-300">📁</span>
-                  <span className="font-medium text-blue-200">Shared Folder</span>
+              // <div className="text-sm text-gray-300 mb-4 p-4 bg-blue-600/20 border border-blue-500/30 rounded-xl glass-dark">
+              <div className="flex flex-col items-center gap-2 mb-2">
+                <div>
+                <span className="text-blue-300">📁</span>
+                <span className="font-medium text-blue-200">Shared Folder</span>
                 </div>
+                {/* </div> */}
                 <div className="text-gray-400">
                   Opened by <span className="text-blue-300 font-medium">{sharedFolder.openedBy}</span> at {new Date(sharedFolder.openedAt).toLocaleTimeString()}
-                  {roomOwner && (
+                  <br />{roomOwner && (
                     <span className="ml-2 text-xs text-gray-500">(Owner: {roomOwner.username}{isOwner ? ' - You' : ''})</span>
                   )}
                 </div>

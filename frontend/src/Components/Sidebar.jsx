@@ -78,14 +78,14 @@ const Sidebar = ({ userData, onLeave, onCollapse }) => {
             {activePanel === 'chat' && 'CHAT'}
             {activePanel === 'history' && 'HISTORY'}
           </div>
-          <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-400' : 'bg-red-400'}`} title={connected ? 'Connected' : 'Disconnected'} />
+          <div className="flex items-center gap-2 ">
+            <div className={`w-2 h-2 rounded-full  ${connected ? 'bg-green-400' : 'bg-red-400'}`} title={connected ? 'Connected' : 'Disconnected'} />
             <span className="text-xs text-slate-400 font-mono">{(connectedUsers?.length||0)+1}</span>
           </div>
         </div>
 
         {/* Panel content */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 h-full">
           {activePanel === 'explorer' && <LocalFiles />}
 
           {activePanel === 'users' && (

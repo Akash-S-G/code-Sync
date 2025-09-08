@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import MonacoEditor from './Monaco'
 import Sidebar from './Sidebar'
-
+// import { Terminal } from 'lucide-react'
+import Terminal from './Terminal'
 const WorkspaceShell = ({ userData, onLeave }) => {
   const [panelOpen, setPanelOpen] = useState(true)
-  const [panelWidth, setPanelWidth] = useState(90)
+  const [panelWidth, setPanelWidth] = useState(70)
+  const [terminalopen, setterminalopen] = useState(false)
 
   return (
     <div className="flex flex-col w-screen h-screen  bg-slate-950">
@@ -29,11 +31,15 @@ const WorkspaceShell = ({ userData, onLeave }) => {
           </div>
         )}
         {/* Editor */}
-        <div className='flex-1 min-w-0 min-h-0 flex' >
+        <div className='flex-1 min-w-0 min-h-0 flex ' >
 
           <MonacoEditor className="w-full h-full" userData={userData} onToggleSidebar={() => setPanelOpen((v) => !v)} onLeave={onLeave} />
         </div>
       </div>
+        {/* <div className='h-34 '>
+          <Terminal/>
+        </div> */}
+     
       {/* Status bar */}
       <div className="h-6 bg-slate-950 border-t border-slate-800 text-[11px] text-slate-400 px-3 flex items-center justify-between font-mono">
         <div>codeSync • Ready</div>
